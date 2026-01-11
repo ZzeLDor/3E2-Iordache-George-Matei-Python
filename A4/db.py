@@ -6,7 +6,7 @@ def create_connection():
         print("Connected.")
         return conn
     except Exception as e:
-        print("Not connected: ")
+        print("Not connected:")
         print(e)
         return None
 
@@ -14,13 +14,12 @@ connection = create_connection()
 cursor = connection.cursor()
 try:
     cursor.execute('SELECT count(*) FROM public."Persons"')
-    print("Persons checked. Number of entries:", cursor.fetchone()[0])
     cursor.execute('SELECT count(*) FROM public."Meetings"')
-    print("Meetings checked. Number of entries:", cursor.fetchone()[0])
 except Exception as e:
     print("Error reading tables:")
     print(e)
+else:
+    print("Initialisation done. All tables read successfully.")
 
 cursor.close()
 connection.close()
-print("Connection closed.")
