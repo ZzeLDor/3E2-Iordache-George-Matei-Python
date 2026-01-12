@@ -1,11 +1,27 @@
-import ttkbootstrap as ttk
-from ttkbootstrap.constants import *
-from ttkbootstrap.dialogs import Messagebox
-import db
+"""
+Add Schedule Meeting UI for the Meeting Scheduler.
+
+Provides a GUI to create meetings, select participants,
+and validate date/time input before saving to the database.
+"""
 import tkinter as tk
 from datetime import datetime, time
 
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from ttkbootstrap.dialogs import Messagebox
+
+import db
+
+
 def load_persons():
+    """
+    Load available persons from the database into the local list and listbox.
+
+    Gets from the "Persons" table id, first name, and last name.
+    Populates the `person_list` with (id, full_name) tuples
+    and fills `listbox_participants` for selecting.
+    """
     conn = db.start_connection()
     if conn:
         try:
@@ -28,6 +44,15 @@ def load_persons():
 
 
 def save_meeting():
+    """
+    Validate meeting input and save a new meeting to the database.
+
+    Collects title, description, start/end dates and times, and selected
+    participants. Performs validation for missing title, date/time format,
+    start before end, and at least one participant. On success inserts a
+    new row into "Meetings" with the participants array and shows
+    confirmation; on failure shows an error and rolls back.
+    """
     title = entry_title.get().strip()
     desc = entry_desc.get().strip()
     try:
@@ -82,8 +107,12 @@ def save_meeting():
 
 
 def start():
+    """
+    Load persons and start the schedule meeting window loop.
+    """
     load_persons()
     window.mainloop()
+
 
 person_list = []
 window = ttk.Window(themename="flatly")
@@ -129,8 +158,7 @@ spin_end_m = ttk.Spinbox(frame_end_group, from_=0, to=59, width=3, format="%02.0
 spin_end_m.set(00)
 spin_end_m.pack(side=LEFT)
 
-ttk.Label(main_frame, text="Select Participants:", font=("Helvetica", 10, "bold")).pack(
-    anchor="w", pady=(15, 5))
+ttk.Label(main_frame, text="Select Participants:", font=("Helvetica", 10, "bold")).pack(anchor="w", pady=(15, 5))
 
 listbox_participants = tk.Listbox(main_frame, selectmode=tk.MULTIPLE, height=8, relief=FLAT, borderwidth=1)
 listbox_participants.pack(fill=X)

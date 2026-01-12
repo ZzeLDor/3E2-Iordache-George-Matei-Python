@@ -1,11 +1,26 @@
+"""
+Add Person UI for the Meeting Scheduler.
+
+Provides a small form to collect a person's first name, last name, and email,
+validate input, and insert the person into the database.
+"""
+import re
+
+import psycopg2
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from ttkbootstrap.dialogs import Messagebox
-import psycopg2
+
 import db
-import re
+
 
 def save_person():
+    """
+    Validate inputs and insert a new person into the database.
+
+    Checks required fields and email format, inserts into "Persons",
+    and shows success or error dialogs.
+    """
     f_name = entry_fname.get().strip()
     l_name = entry_lname.get().strip()
     email = entry_email.get().strip().lower()
@@ -23,7 +38,7 @@ def save_person():
             cursor = conn.cursor()
             query = """
                     INSERT INTO public."Persons" ("fName", "lName", email)
-                    VALUES (%s, %s, %s) 
+                    VALUES (%s, %s, %s) \
                     """
             cursor.execute(query, (f_name, l_name, email))
             conn.commit()
@@ -42,8 +57,13 @@ def save_person():
     else:
         Messagebox.show_error("Could not connect to the database.", "Error")
 
+
 def start():
+    """
+    Run the add person window loop.
+    """
     window.mainloop()
+
 
 window = ttk.Window(themename="flatly")
 window.title("Add New Person")
