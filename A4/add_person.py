@@ -42,6 +42,9 @@ def save_person():
     else:
         Messagebox.show_error("Could not connect to the database.", "Error")
 
+def start():
+    window.mainloop()
+
 window = ttk.Window(themename="flatly")
 window.title("Add New Person")
 window.geometry("300x410+%d+%d" % (window.winfo_screenwidth() / 2 - 150, window.winfo_screenheight() / 2 - 205))
@@ -64,4 +67,4 @@ entry_email.pack(fill=X, pady=(0, 10))
 btn_save = ttk.Button(container, text="Save Person", command=save_person, bootstyle=SUCCESS)
 btn_save.pack(pady=20, fill=X)
 
-window.mainloop()
+start()

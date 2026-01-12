@@ -5,8 +5,6 @@ import db
 import tkinter as tk
 from datetime import datetime, time
 
-person_list = []
-
 def load_persons():
     conn = db.start_connection()
     if conn:
@@ -83,6 +81,11 @@ def save_meeting():
         Messagebox.show_error("Could not connect to the database.", "Error")
 
 
+def start():
+    load_persons()
+    window.mainloop()
+
+person_list = []
 window = ttk.Window(themename="flatly")
 window.title("Schedule Meeting")
 window.geometry("530x845+%d+%d" % (window.winfo_screenwidth() / 2 - 265, window.winfo_screenheight() / 2 - 422))
@@ -135,5 +138,4 @@ listbox_participants.pack(fill=X)
 btn_save = ttk.Button(main_frame, text="Schedule Meeting", command=save_meeting, bootstyle="success", width=20)
 btn_save.pack(pady=25)
 
-load_persons()
-window.mainloop()
+start()
