@@ -1,6 +1,6 @@
 import psycopg2
 
-def create_connection():
+def start_connection():
     try:
         conn = psycopg2.connect(dbname="postgres",user="postgres",password="1234",host="localhost",port="5432")
         print("Connected.")
@@ -10,7 +10,7 @@ def create_connection():
         print(e)
         return None
 
-connection = create_connection()
+connection = start_connection()
 cursor = connection.cursor()
 try:
     cursor.execute('SELECT count(*) FROM public."Persons"')
